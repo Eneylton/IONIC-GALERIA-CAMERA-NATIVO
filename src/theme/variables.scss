@@ -84,5 +84,19 @@ $colors: (
 // Fonts
 // --------------------------------------------------
 
-@import "roboto";
-@import "noto-sans";
+//@import "roboto";
+//@import "noto-sans";
+
+@font-face{
+
+  font-family: 'Swanky and Moo Moo', cursive;
+  font-style:normal;
+  src:url('../assets/fonts/AnnieUseYourTelescope-Regular.ttf');
+
+  }
+
+  h1,h2,h3,h4,p,button,ion-title{ 
+
+    font-family: 'Annie Use Your Telescope', cursive;
+     
+    }
