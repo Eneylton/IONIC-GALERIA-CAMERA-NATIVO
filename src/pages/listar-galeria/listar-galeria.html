@@ -1,0 +1,24 @@
+<ion-header>
+  <ion-navbar color="danger">
+    <ion-title>Galerias</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+
+  <ion-buttons  >
+    <button start icon-only ion-button color="secondary" (click)="openCamera()">
+      <ion-icon name="aperture"></ion-icon>
+      <span style="padding-right: 20px">Camera </span>
+    </button>
+    <button end icon-only ion-button color="primary" (click)="openGaleria()">
+      <ion-icon name="image"></ion-icon>
+      <span style="padding-right: 20px">Galeria</span>
+    </button>
+  </ion-buttons>
+
+  <br>
+
+  <img [src]="foto || '../../assets/imgs/sem-img.png'" style="height: 280px">
+
+</ion-content>
