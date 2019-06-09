@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { Camera, CameraOptions } from '@ionic-native/camera';
+import { Galeria } from '../../model/galeria.model';
+import { GaleriaServiceProvider } from '../../providers/galeria-service/galeria-service';
 
 @IonicPage({})
 @Component({
@@ -9,59 +10,40 @@ import { Camera, CameraOptions } from '@ionic-native/camera';
 })
 export class ListarGaleriaPage {
   
-  foto:string;
+  items: Galeria[];
 
-  constructor(private camera: Camera,public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController,
+    public navParams: NavParams,
+    private service: GaleriaServiceProvider) {
   }
-
-  openGaleria(){
-
-    const options: CameraOptions = {
-      quality: 100,
-      destinationType: this.camera.DestinationType.DATA_URL,
-      encodingType: this.camera.EncodingType.JPEG,
-      mediaType: this.camera.MediaType.PICTURE,
-      sourceType: this.camera.PictureSourceType.PHOTOLIBRARY
-    }
-
-    this.camera.getPicture(options).then((imageData) => {
-
-      let base64Image = 'data:image/jpeg;base64,' + imageData;
-      
-      this.foto = base64Image;
-
-     }, (err) => {
-      // Handle error
-     });
-     
-
-  }
-
-  openCamera(){
-
-    const options: CameraOptions = {
-      quality: 100,
-      destinationType: this.camera.DestinationType.DATA_URL,
-      encodingType: this.camera.EncodingType.JPEG,
-      mediaType: this.camera.MediaType.PICTURE
-    }
-
-    this.camera.getPicture(options).then((imageData) => {
-
-      let base64Image = 'data:image/jpeg;base64,' + imageData;
-      
-      this.foto = base64Image;
-
-     }, (err) => {
-      // Handle error
-     });
-     
-
-  }
-
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad ListarGaleriaPage');
+    this.service.buscarTodos().subscribe(response => {
+
+      this.items = response;
+      console.log(this.items);
+
+    },
+      error => {
+        console.log(error);
+      })
   }
 
+  openCadastro() {
+    this.navCtrl.push('CadastroGaleriaPage');
+  }
+
+  openEditar(item: any) {
+    this.navCtrl.push('EditarGaleriaPage', { "item": item });
+  }
+
+  openExcluir(item: any){
+    console.log(item.id);
+    this.service.delete(item.id).subscribe(response =>{
+      
+      console.log(response);
+      this.navCtrl.setRoot('ListarGaleriaPage');
+    });
+
+}
 }
