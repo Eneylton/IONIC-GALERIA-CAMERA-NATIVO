@@ -5,8 +5,11 @@
   </ion-header>
   
   <ion-content class="card-background-page">
-  
-  
+
+          <ion-refresher (ionRefresh)="doRefresh($event)">
+            <ion-refresher-content></ion-refresher-content>
+          </ion-refresher>
+      
     <ion-fab top right edge>
       <button ion-fab mini (click)="openCadastro()">
         <ion-icon name="add"></ion-icon>
@@ -20,6 +23,12 @@
       <ion-fab left bottom>
         <button color="light" ion-fab mini (click)="openEditar(item)">
           <ion-icon class="fa-pencil"></ion-icon>
+        </button>
+      </ion-fab>
+
+      <ion-fab center bottom>
+        <button color="dark" ion-fab mini (click)="openImagem(item)">
+          <ion-icon class="fa-image"></ion-icon>
         </button>
       </ion-fab>
   

@@ -18,6 +18,13 @@ export class ListarGaleriaPage {
   }
 
   ionViewDidLoad() {
+
+    this.onLoand();
+   
+  }
+
+  onLoand(){
+
     this.service.buscarTodos().subscribe(response => {
 
       this.items = response;
@@ -27,6 +34,7 @@ export class ListarGaleriaPage {
       error => {
         console.log(error);
       })
+
   }
 
   openCadastro() {
@@ -35,6 +43,10 @@ export class ListarGaleriaPage {
 
   openEditar(item: any) {
     this.navCtrl.push('EditarGaleriaPage', { "item": item });
+  }
+
+  openImagem(item: any) {
+    this.navCtrl.push('ImagemPage', { "item": item });
   }
 
   openExcluir(item: any){
@@ -46,4 +58,14 @@ export class ListarGaleriaPage {
     });
 
 }
+
+doRefresh(refresher) {
+
+this.onLoand();
+  setTimeout(() => {
+  
+    refresher.complete();
+  }, 2000);
+}
+
 }
