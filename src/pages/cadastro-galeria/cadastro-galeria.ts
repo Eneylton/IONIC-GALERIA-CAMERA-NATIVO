@@ -36,7 +36,61 @@ export class CadastroGaleriaPage {
     })
   }
 
+  openGaleria(){
+
+    const options: CameraOptions = {
+      quality: 100,
+      destinationType: this.camera.DestinationType.DATA_URL,
+      encodingType: this.camera.EncodingType.JPEG,
+      mediaType: this.camera.MediaType.PICTURE,
+      sourceType: this.camera.PictureSourceType.PHOTOLIBRARY
+    }
+    this.camera.getPicture(options).then((imageData) => {
+    
+      this.foto = 'data:image/jpeg;base64,' + imageData;
+
+      this.base64Img = imageData.substr(100,6).replace('/','eneylton').replace('+','enexs');
+
+      this.fotoConvert = this.converter.dataUriToBlob(this.foto);
+     
+    }, (err) => {
+      console.log(err);
+     });
+  }
+
+  openCamera(){
+
+    const options: CameraOptions = {
+      quality: 100,
+      destinationType: this.camera.DestinationType.DATA_URL,
+      encodingType: this.camera.EncodingType.JPEG,
+      mediaType: this.camera.MediaType.PICTURE
+    }
+
+    this.camera.getPicture(options).then((imageData) => {
+
+      this.foto = 'data:image/jpeg;base64,' + imageData;
+
+      this.base64Img = imageData.substr(100,6).replace('/','eneylton').replace('+','enexs');
+
+      this.fotoConvert = this.converter.dataUriToBlob(this.foto);
+
+     }, (err) => {
+      // Handle error
+     });
+     
+
+  }
+
   adicionar() {
+   
+    let formData :  FormData = new FormData();
+
+    formData.append('foto', this.fotoConvert,`${this.base64Img}.jpeg`);
+
+    this.http.post('http://localhost:8080/fotos', formData)
+    .subscribe(reposta=> console.log('Upload ok.'));
+
     this.servidor.insert(this.formGroup.value)
       .subscribe(response => {
         this.showInsertOk();
