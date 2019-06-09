@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angu
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { GaleriaServiceProvider } from '../../providers/galeria-service/galeria-service';
 
+
 @IonicPage({})
 @Component({
   selector: 'page-imagem',
@@ -10,7 +11,10 @@ import { GaleriaServiceProvider } from '../../providers/galeria-service/galeria-
 })
 export class ImagemPage {
 
+  galerias: any;
+
   formGroup: FormGroup;
+  
 
   constructor(public navCtrl: NavController,
     public formBuilder: FormBuilder,
@@ -20,27 +24,30 @@ export class ImagemPage {
   ) {
 
     this.formGroup = this.formBuilder.group({
-      id: [null, [Validators.required]],
+
       nome: [null, [Validators.required]],
-      img: [null, [Validators.required]]
+      img: [null, [Validators.required]],
+      galeria_id: [null, [Validators.required]]
+      
     })
 
   }
 
   ionViewDidLoad() {
     let items =  this.navParams.get('item');
-    console.log(items.id);
-    this.popularCampos(items);
+    this.servidor.buscarPorID(items.id).subscribe(response=>{
+    this.galerias = response;
+    
+    console.log(this.galerias);
+
+    })
+    
     }
 
-  editar() {
-    let items =  this.navParams.get('item');
 
+  adicionar() {
 
-    console.log(items);
-
-
-    this.servidor.update(this.formGroup.value,items.id)
+    this.servidor.insertImg(this.formGroup.value)
       .subscribe(response => {
         this.showInsertOk();
       },
@@ -51,26 +58,17 @@ export class ImagemPage {
   showInsertOk() {
     let alert = this.alertCtrl.create({
       title: 'Sucesso!',
-      message: 'Cadastro Atualizado com sucesso',
+      message: 'Cadastro efetuado com sucesso',
       enableBackdropDismiss: false,
       buttons: [
         {
           text: 'Ok',
           handler: () => {
-            this.navCtrl.setRoot('ListarGaleriaPage')
+            this.navCtrl.setRoot('GaleriaPage')
           }
         }
       ]
     });
     alert.present();
   }
-
-  popularCampos(dados){
-    
-    this.formGroup.controls['id'].setValue(dados.id);
-    this.formGroup.controls['nome'].setValue(dados.nome);
-    this.formGroup.controls['img'].setValue(dados.img);
-  
-  }
-
 }

@@ -1,15 +1,31 @@
-<!--
-  Generated template for the ImagemPage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
-  <ion-navbar>
-    <ion-title>imagem</ion-title>
+  <ion-navbar color="danger">
+    <ion-title>Lista de Estado</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
+
+    <form [formGroup]="formGroup" (ngSubmit)="adicionar(); $event.preventDefault()">
+        <ion-list>
+
+            <ion-input hidden formControlName="galeria_id" type="number"></ion-input>
+
+          <ion-item>
+            <ion-label floating>Nome</ion-label>
+            <ion-input formControlName="nome" type="text"></ion-input>
+          </ion-item>
+
+          <ion-item>
+              <ion-label floating>Imagem</ion-label>
+              <ion-input formControlName="img" type="text"></ion-input>
+
+            </ion-item>          
+      
+        </ion-list>
+    
+        <button color="secondary" ion-button block type="submit" >Cadastrar</button>
+    
+      </form>
 
 </ion-content>
