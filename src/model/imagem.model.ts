@@ -4,5 +4,5 @@ export interface Imagem{
     id   : string;
     nome : string;
     img  : string;
-    galeria_id : Galeria;
+    galeria: Galeria[];
 }

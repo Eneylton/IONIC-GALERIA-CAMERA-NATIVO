@@ -27,7 +27,7 @@ export class ImagemPage {
 
       nome: [null, [Validators.required]],
       img: [null, [Validators.required]],
-      galeria_id: [null, [Validators.required]]
+      galeria: [null, [Validators.required]]
       
     })
 
@@ -37,8 +37,10 @@ export class ImagemPage {
     let items =  this.navParams.get('item');
     this.servidor.buscarPorID(items.id).subscribe(response=>{
     this.galerias = response;
+
+    this.formGroup.controls.galeria.setValue(this.galerias);
     
-    console.log(this.galerias);
+    console.log(this.galerias.id);
 
     })
     
@@ -46,7 +48,7 @@ export class ImagemPage {
 
 
   adicionar() {
-
+    console.log(this.formGroup.value);
     this.servidor.insertImg(this.formGroup.value)
       .subscribe(response => {
         this.showInsertOk();
